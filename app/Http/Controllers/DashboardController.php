@@ -3,25 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Idea;
+use Illuminate\Mail\Mailables\Content;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        $users = [
-            [
-                "name" => "Alex",
-                "age" => 25
-            ],
-            [
-                "name" => "Ira",
-                "age" => 46
-            ],
-            [
-                "name" => "Petr",
-                "age" => 17
-            ],
-        ];
-        return view("dashboard", ["users" => $users]);
+        // $idea = new Idea([
+        //     "content" => "test",
+        // ]);
+
+        // $idea->save();
+        //Остановился здесь
+        dump(Idea::all());
+        return view("dashboard", ['ideas' => Idea::all()]);
     }
 }
