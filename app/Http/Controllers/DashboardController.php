@@ -10,13 +10,15 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // $idea = new Idea([
-        //     "content" => "test",
-        // ]);
+         $idea = new Idea([
+             "content" => "hellow ideas",
+         ]);
 
-        // $idea->save();
-        //Остановился здесь
-        dump(Idea::all());
-        return view("dashboard", ['ideas' => Idea::all()]);
+         $idea->save();
+
+        return view("dashboard", ['ideas' => Idea::orderBy('created_at', 'DESC')->get()
+    ]);
+
+        //return view("dashboard");
     }
 }
