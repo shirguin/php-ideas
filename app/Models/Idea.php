@@ -8,9 +8,24 @@ use Illuminate\Database\Eloquent\Model;
 class Idea extends Model
 {
     use HasFactory;
+    //Защищенные поля от автозаполнения
+    // protected $quarded = [
+    //     'id',
+    //     'created_at',
+    //     'updated_at',
+    // ];
 
+    // protected $quarded = [];
+
+
+    //Поля, которые можно заполнять в контроллере автоматически (request()-all())
     protected $fillable = [
         'content',
         'likes',
     ];
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }
