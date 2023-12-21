@@ -46,7 +46,7 @@ class UserController extends Controller
             $imagePath = request()->file('image')->store('profile', 'public');
             $validated['image'] = $imagePath;
 
-            Storage::disk('public')->delete($user->image); //Удаляем предыдущий файл
+           Storage::disk('public')->delete($user->image ?? ""); //Удаляем предыдущий файл
         }
 
         $user->update($validated);

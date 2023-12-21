@@ -56,6 +56,17 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
+    public function followings()
+    {
+        //Остановился на 6 минуте 28 урока
+        //return $this->belongsToMany(User::class, 'follower_user', '', '');
+    }
+
+    public function followers()
+    {
+
+    }
+
     public function getImageUrl()
     {
         if ($this->image) {
