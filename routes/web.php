@@ -4,6 +4,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IdeaController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::group(["prefix" => "ideas/", "as" => "ideas."], function () {
@@ -29,8 +31,10 @@ Route::group(["prefix" => "ideas/", "as" => "ideas."], function () {
         Route::delete('/{idea}', [IdeaController::class, 'destroy'])->name('destroy');
         Route::post('/{idea}/comments', [CommentController::class, 'store'])->name('comments.store');
     });
-
 });
+
+Route::resource('users', UserController::class)->only('show', 'edit', 'update')->middleware('auth');
+Route::get('profile', [UserController::class, 'profile'])->middleware('auth')->name('profile');
 
 
 
