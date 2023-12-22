@@ -58,15 +58,18 @@ class User extends Authenticatable
 
     public function followings()
     {
-        //Остановился на 6 минуте 28 урока
-        //return $this->belongsToMany(User::class, 'follower_user', '', '');
+        return $this->belongsToMany(User::class, 'follower_user', 'follower_id', 'user_id')->withTimestamps();
     }
 
     public function followers()
     {
-
+        return $this->belongsToMany(User::class, 'follower_user', 'user_id', 'follower_id')->withTimestamps();
     }
 
+    public function follows(User $user)
+    {
+        return $this->followings()->where('user_id', $user->id)->exists();
+    }
     public function getImageUrl()
     {
         if ($this->image) {

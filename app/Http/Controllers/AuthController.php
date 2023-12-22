@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\WelcomeEmail;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -20,15 +22,19 @@ class AuthController extends Controller
                 'name' => 'required|min:3|max:40',
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|confirmed|min:5'
-            ]);
-        User::create(
+            ]
+        );
+        $user = User::create(
             [
                 'name' => $validated['name'],
                 'email' => $validated['email'],
                 'password' => Hash::make($validated['password']),
-            ]);
+            ]
+        );
 
-            return redirect()->route('dashboard')->with('success','Account created Successfuly!');
+        Mail::to($user->email)->send(new WelcomeEmail($user)); //Отправляем письмо зарегистрировавшемуся пользователю
+
+        return redirect()->route('dashboard')->with('success', 'Account created Successfuly!');
     }
 
     public function login()
@@ -44,17 +50,18 @@ class AuthController extends Controller
             [
                 'email' => 'required|email',
                 'password' => 'required|min:5'
-            ]);
+            ]
+        );
 
-           if(auth()->attempt($validated)){
+        if (auth()->attempt($validated)) {
             request()->session()->regenerate();
 
-            return redirect()->route('dashboard')->with('success','Logged in successfully!');
-           }
-        
-            return redirect()->route('login')->withErrors([
-                'email'=> 'Не найден пользователь с таким адрессом email'
-            ]);
+            return redirect()->route('dashboard')->with('success', 'Logged in successfully!');
+        }
+
+        return redirect()->route('login')->withErrors([
+            'email' => 'Не найден пользователь с таким адрессом email'
+        ]);
     }
 
     public function logout()
@@ -64,6 +71,6 @@ class AuthController extends Controller
         request()->session()->invalidate();
         request()->session()->regenerate();
 
-        return redirect()->route('dashboard')->with('success','Logged out Successfuly!');
+        return redirect()->route('dashboard')->with('success', 'Logged out Successfuly!');
     }
 }
