@@ -9,14 +9,14 @@
             @include('shared.success-message')
 
             <div class="mt-3">
-                @include('shared.user-card')
+                @include('users.shared.user-card')
             </div>
             <hr>
 
             @if (count($ideas) > 0)
                 @foreach ($ideas as $idea)
                     <div class="mt-3">
-                        @include('shared.idea-card')
+                        @include('ideas.shared.idea-card')
                     </div>
                 @endforeach
             @else

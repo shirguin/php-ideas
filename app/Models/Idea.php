@@ -17,12 +17,12 @@ class Idea extends Model
 
     // protected $quarded = [];
 
+    protected $with = ['user:id,name,image', 'comments.user:id,name,image']; //оптимизация обращений к БД в самой модели
 
     //Поля, которые можно заполнять в контроллере автоматически (request()-all())
     protected $fillable = [
         'user_id',
         'content',
-        'likes',
     ];
 
     public function comments()
@@ -33,5 +33,10 @@ class Idea extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function likes()
+    {
+        return $this->belongsToMany(User::class, 'idea_like')->withTimestamps();
     }
 }
