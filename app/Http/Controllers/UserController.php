@@ -23,6 +23,8 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        $this->authorize("update", $user); //проверка политики безопасности
+
         $editing = true;
         $ideas = $user->ideas()->paginate(5);
 
@@ -34,6 +36,7 @@ class UserController extends Controller
      */
     public function update(User $user)
     {
+        $this->authorize("update", $user); //проверка политики безопасности
         $validated = request()->validate(
             [
                 'name' => 'required|min:3|max:40',
@@ -46,7 +49,7 @@ class UserController extends Controller
             $imagePath = request()->file('image')->store('profile', 'public');
             $validated['image'] = $imagePath;
 
-           Storage::disk('public')->delete($user->image ?? ""); //Удаляем предыдущий файл
+            Storage::disk('public')->delete($user->image ?? ""); //Удаляем предыдущий файл
         }
 
         $user->update($validated);
