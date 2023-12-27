@@ -36,6 +36,8 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+
+            \App\Http\Middleware\Setlocale::class, //Добавил установку языка
         ],
 
         'api' => [
@@ -54,6 +56,7 @@ class Kernel extends HttpKernel
      */
     protected $middlewareAliases = [
         //'admin' => \App\Http\Middleware\EnsureUserIsAdmin::class,
+
 
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,

@@ -15,6 +15,8 @@ class DashboardController extends Controller
         //return new WelcomeEmail(auth()->user()); //Способ просмотра электронного письма
 
         //$ideas = Idea::with('user', 'comments.user')->orderBy("created_at", "DESC"); //оптимизация запросов к базе данных
+
+        //$ideas = Idea::withCount('likes')->orderBy("created_at", "DESC");//оптимизация запросов к базе данных
         $ideas = Idea::orderBy("created_at", "DESC");
 
         if (request()->has("search")) {

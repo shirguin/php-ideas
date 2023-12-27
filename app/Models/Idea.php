@@ -19,6 +19,7 @@ class Idea extends Model
 
     protected $with = ['user:id,name,image', 'comments.user:id,name,image']; //оптимизация обращений к БД в самой модели
 
+    protected $withCount = ['likes'];
     //Поля, которые можно заполнять в контроллере автоматически (request()-all())
     protected $fillable = [
         'user_id',
